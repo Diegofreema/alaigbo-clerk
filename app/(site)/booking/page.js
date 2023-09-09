@@ -251,7 +251,9 @@ const EventOnboard = async () => {
   if (!isCompany && !isMember) redirect('/accountType');
   return (
     <div className="min-h-screen py-[150px] w-[95%] md:w-[85%] mx-auto">
-      <h1 className="text-5xl font-bold text-start">Book the upcoming event</h1>
+      <h1 className="text-2xl md:text-4xl capitalize font-bold text-center">
+        Book a seat at the upcoming summit
+      </h1>
 
       <div>
         <EventRegistration />

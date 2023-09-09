@@ -4,12 +4,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 const NavLinks = ({ item }) => {
-  let session;
-  if (typeof window !== 'undefined' && window.localStorage) {
-    session = window.localStorage.getItem('isLoggedIn');
-  }
-  const isLoggedIn = Boolean(session);
-  console.log(isLoggedIn);
   const router = useRouter();
   const { link, title } = item;
   const MotionLink = motion(Link);
@@ -45,7 +39,7 @@ const NavLinks = ({ item }) => {
       initial="initial"
       animate="animate"
       className="text-white w-fit py-2 px-4 mb-4"
-      href={!isLoggedIn && link === '/register' ? '/signIn' : link}
+      href={link}
     >
       {title.split(' ').map((word, index) => (
         <motion.span

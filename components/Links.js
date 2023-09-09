@@ -11,11 +11,15 @@ const navLinks = [
     link: '/event',
   },
   {
-    title: 'EVENT BOOKING',
+    title: 'SUMMIT BOOKING',
     link: '/booking',
   },
   {
-    title: 'INVESTOR',
+    title: 'MEMBER REGISTRATION',
+    link: '/member',
+  },
+  {
+    title: 'INVESTOR REGISTRATION',
     link: '/investor',
   },
   {

@@ -16,4 +16,8 @@ export const states = [
     value: 'Imo',
     label: 'Imo',
   },
+  {
+    value: 'Enugu',
+    label: 'Enugu',
+  },
 ];

@@ -7,12 +7,22 @@ import { Button } from '@/components/ui/button';
 import NavLinks from './NavLinks';
 import SideBar from './SideBar';
 import { UserButton, useUser } from '@clerk/nextjs';
+import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 const Header = () => {
   const { isLoaded, isSignedIn, user } = useUser();
+  const pathName = usePathname();
 
   return (
     <header className="   bg-black  fixed top-0 left-0 right-0 z-30 ">
-      <nav className=" flex py-4 pl-3  md:p-8 items-center justify-between w-[98%] sm:w-[90%] mx-auto ">
+      <nav
+        className={cn(
+          ' py-6 pl-3  md:p-8 items-center justify-between w-[90%] md:w-[85%] mx-auto ',
+          pathName.includes('sign-up') || pathName.includes('sign-in')
+            ? 'hidden'
+            : 'flex '
+        )}
+      >
         <div className="left text-base md:text-3xl">
           <Link className="text-white" href={'/'}>
             Alaigbo
