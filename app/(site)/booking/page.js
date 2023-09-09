@@ -24,7 +24,7 @@ const EventOnboard = async () => {
       </h1>
 
       <div>
-        <EventRegistration user={user} />
+        <EventRegistration id={isMember?.id} />
       </div>
     </div>
   );

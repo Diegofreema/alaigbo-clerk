@@ -27,7 +27,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from '@/components/ui/toast';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
-const EventRegistration = () => {
+const EventRegistration = ({ id }) => {
   const { user } = useUser();
   const { toast } = useToast();
   const router = useRouter();
@@ -63,7 +63,8 @@ const EventRegistration = () => {
         values.accommodation,
         values.prefix,
         values.location,
-        values.participants
+        values.participants,
+        id
       );
       toast({
         variant: 'success',
@@ -153,7 +154,7 @@ const EventRegistration = () => {
 
                   <FormControl>
                     <Input
-                      placeholder="Last Name"
+                      placeholder="Middle Name"
                       {...field}
                       className="w-full border border-orange-500"
                     />

@@ -30,14 +30,14 @@ import {
 import { Calendar } from '@/components/ui/calendar';
 import { CalendarIcon, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { states } from '@/utils/state';
+import { states } from '@/utils/file';
 import FileUpload from '../FileUpload';
 import { createMember } from '@/lib/actions/user.actions';
 import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from '@/components/ui/toast';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
-import { departments } from '@/utils/departments';
+import { departments } from '@/utils/file';
 const AccountProfile = () => {
   const { toast } = useToast();
   const router = useRouter();
