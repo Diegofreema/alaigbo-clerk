@@ -10,7 +10,7 @@ import { UserButton, useUser } from '@clerk/nextjs';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 const Header = () => {
-  const { isLoaded, isSignedIn, user } = useUser();
+  const { isSignedIn } = useUser();
   const pathName = usePathname();
 
   return (
