@@ -6,12 +6,17 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 
 const EventOnboard = async () => {
-  const { id } = await currentUser();
-
+  const { id, firstName, lastName, emailAddresses } = await currentUser();
+  const user = {
+    firstName,
+    lastName,
+    emailAddresses,
+  };
   const isMember = await fetchUserMember(id);
   const isCompany = await fetchInvestor(id);
-  console.log(isCompany.isOnboarded, isMember.isOnboarded);
-  if (!isCompany.isOnboarded && !isMember.isOnboarded) redirect('/accountType');
+
+  if (!isCompany?.isOnboarded && !isMember?.isOnboarded)
+    redirect('/accountType');
   return (
     <div className="min-h-screen py-[150px] w-[95%] md:w-[85%] mx-auto">
       <h1 className="text-2xl md:text-4xl capitalize font-bold text-center">
@@ -19,7 +24,7 @@ const EventOnboard = async () => {
       </h1>
 
       <div>
-        <EventRegistration />
+        <EventRegistration user={user} />
       </div>
     </div>
   );

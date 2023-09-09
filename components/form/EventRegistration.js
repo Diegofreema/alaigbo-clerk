@@ -26,16 +26,19 @@ import { eventBooking } from '@/lib/actions/user.actions';
 import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from '@/components/ui/toast';
 import { useRouter } from 'next/navigation';
-const EventRegistration = ({ user }) => {
+import { useUser } from '@clerk/nextjs';
+const EventRegistration = () => {
+  const { user } = useUser();
   const { toast } = useToast();
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(bookingValidation),
     defaultValues: {
       prefix: 'Mr',
-      firstName: '',
-      lastName: '',
-      email: '',
+      firstName: user?.firstName || '',
+      lastName: user?.lastName || '',
+      middleName: '',
+      email: user?.emailAddresses[0].emailAddress || '',
       number: '',
       location: '',
       accommodation: 'Yes',
@@ -51,6 +54,7 @@ const EventRegistration = ({ user }) => {
       await eventBooking(
         values.firstName,
         values.lastName,
+        values.middleName,
         values.email,
         values.number,
         values.guest,
@@ -142,6 +146,25 @@ const EventRegistration = ({ user }) => {
             />
             <FormField
               control={form.control}
+              name="middleName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Middle Name</FormLabel>
+
+                  <FormControl>
+                    <Input
+                      placeholder="Last Name"
+                      {...field}
+                      className="w-full border border-orange-500"
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="lastName"
               render={({ field }) => (
                 <FormItem>
@@ -190,7 +213,7 @@ const EventRegistration = ({ user }) => {
 
                   <FormControl>
                     <Input
-                      placeholder="Industry name"
+                      placeholder="Contact Number"
                       {...field}
                       className="w-full border border-orange-500"
                     />

@@ -16,33 +16,33 @@ enum MemberRole {
 }
 
 model Profile {
-  id           String     @id @default(auto()) @map("_id") @db.ObjectId
-  userId       String     @unique
-  firstName    String
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String?     @unique
+  firstName    String?
   middleName   String
   lastName     String
-  email        String     @unique
+  email        String      @unique
   number       String
-  state        String
-  lga          String
-  town         String
-  placeOfBirth String
-  village      String
-  familyName   String
-  gender       String
-  role         MemberRole @default(MEMBER)
-  interests    String
-  bio          String
-  imgUrl       String
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  dob          DateTime
-  isOnboarded  Boolean    @default(false)
-  memberId     String     @default(uuid())
-  bookIds      String[]   @db.ObjectId
-  book         Book[]     @relation(fields: [bookIds], references: [id])
-  groupId      String     @db.ObjectId
-  group        Group      @relation(fields: [groupId], references: [id])
+  state        String?
+  lga          String?
+  town         String?
+  placeOfBirth String?
+  village      String?
+  familyName   String?
+  gender       String?
+  role         MemberRole? @default(MEMBER)
+  interests    String?
+  bio          String?
+  imgUrl       String?
+  createdAt    DateTime?   @default(now())
+  updatedAt    DateTime?   @updatedAt
+  dob          DateTime?
+  isOnboarded  Boolean?    @default(false)
+  memberId     String?     @default(uuid())
+  bookIds      String[]    @db.ObjectId
+  book         Book[]      @relation(fields: [bookIds], references: [id])
+  groupId      String?     @db.ObjectId
+  group        Group?      @relation(fields: [groupId], references: [id])
 }
 
 model Investor {
@@ -67,6 +67,7 @@ model Book {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   userId        String    @unique
   firstName     String
+  middleName    String
   lastName      String
   email         String
   number        String

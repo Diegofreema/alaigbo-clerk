@@ -6,6 +6,7 @@ import SideBar from './SideBar';
 import { UserButton, useUser } from '@clerk/nextjs';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { Button } from './ui/button';
 const Header = () => {
   const { isSignedIn } = useUser();
   const pathName = usePathname();
@@ -36,7 +37,13 @@ const Header = () => {
             </Link>
           </div>
           <SideBar />
-          {isSignedIn && <UserButton afterSignOutUrl="/" />}
+          {isSignedIn ? (
+            <UserButton afterSignOutUrl="/" />
+          ) : (
+            <Link href={'/sign-in'}>
+              <Button variant="link">Login</Button>
+            </Link>
+          )}
         </div>
       </nav>
     </header>
