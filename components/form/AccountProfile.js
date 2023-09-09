@@ -37,11 +37,11 @@ import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from '@/components/ui/toast';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
+import { departments } from '@/utils/departments';
 const AccountProfile = () => {
   const { toast } = useToast();
   const router = useRouter();
   const { user } = useUser();
-  console.log(user && user);
 
   const form = useForm({
     resolver: zodResolver(userValidation),
@@ -50,7 +50,7 @@ const AccountProfile = () => {
       firstName: '',
       lastName: '',
       middleName: '',
-      email: '',
+      email: user?.emailAddresses[0]?.emailAddress || '',
       number: '',
       dob: '',
       state: 'Imo',
@@ -63,6 +63,7 @@ const AccountProfile = () => {
       interests: '',
       bio: '',
       memberId: '',
+      group: 'Agriculture',
     },
   });
   const onInvalid = (errors) => console.error(errors);
@@ -87,8 +88,8 @@ const AccountProfile = () => {
         imgUrl: values.imgUrl,
         dob: values.dob,
         userId: user?.id,
-
         number: values.number,
+        group: values.group,
       });
       toast({
         variant: 'success',
@@ -171,7 +172,7 @@ const AccountProfile = () => {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-y-3 md:gap-x-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-y-3 md:gap-x-3">
             <FormField
               control={form.control}
               name="email"
@@ -202,6 +203,39 @@ const AccountProfile = () => {
                       className="w-full border border-orange-500"
                     />
                   </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="group"
+              render={({ field }) => (
+                <FormItem>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl className="border border-orange-500">
+                      <SelectTrigger>
+                        <SelectValue
+                          color="black"
+                          placeholder="Choose a group"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {departments.map((department) => (
+                        <SelectItem
+                          key={department.value}
+                          value={department.value}
+                        >
+                          {department.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
 
                   <FormMessage />
                 </FormItem>

@@ -2,20 +2,10 @@ import SemiHeader from '@/UI/SemiHeader';
 
 import Demo from '@/components/mantine/Accordion';
 import TextComponent from '@/components/mantine/TextComponent';
-import { fetchInvestor, fetchUserMember } from '@/lib/actions/user.actions';
-import { currentUser } from '@clerk/nextjs';
-
-import { redirect } from 'next/navigation';
 
 const Abstract = async () => {
-  const { id } = await currentUser();
-
-  const isMember = await fetchUserMember(id);
-  const isCompany = await fetchInvestor(id);
-  if (!isCompany && !isMember) redirect('/accountType');
-
   return (
-    <div className="min-h-screen md:py-[100px] py-[80px]">
+    <div className="min-h-screen md:py-[80px] py-[60px]">
       <SemiHeader>ABSTRACT</SemiHeader>
       <div className="container w-[98%] md:w-[85%] lg:w-[70%] space-y-32  mx-auto px-4">
         <Demo />

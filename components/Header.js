@@ -1,10 +1,7 @@
 'use client';
 
-import { FaTimes } from 'react-icons/fa';
 import Link from 'next/link';
 
-import { Button } from '@/components/ui/button';
-import NavLinks from './NavLinks';
 import SideBar from './SideBar';
 import { UserButton, useUser } from '@clerk/nextjs';
 import { usePathname } from 'next/navigation';
@@ -17,7 +14,7 @@ const Header = () => {
     <header className="   bg-black  fixed top-0 left-0 right-0 z-30 ">
       <nav
         className={cn(
-          ' py-6 pl-3  md:p-8 items-center justify-between w-[90%] md:w-[85%] mx-auto ',
+          ' py-6   items-center justify-between w-[90%] md:w-[85%] mx-auto ',
           pathName.includes('sign-up') || pathName.includes('sign-in')
             ? 'hidden'
             : 'flex '

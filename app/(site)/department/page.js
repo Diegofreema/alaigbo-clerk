@@ -1,8 +1,5 @@
 import SemiHeader from '@/UI/SemiHeader';
 import DepartmentCard from '@/components/mantine/DepartmentCard';
-import { fetchInvestor, fetchUserMember } from '@/lib/actions/user.actions';
-import { currentUser } from '@clerk/nextjs';
-import { redirect } from 'next/navigation';
 const departments = [
   { department: 'Education', id: '1' },
   { department: 'Agriculture', id: '2' },
@@ -21,11 +18,6 @@ const departments = [
   { department: 'Tourism', id: '15' },
 ];
 const Department = async () => {
-  const { id } = await currentUser();
-
-  const isMember = await fetchUserMember(id);
-  const isCompany = await fetchInvestor(id);
-  if (!isCompany && !isMember) redirect('/accountType');
   return (
     <div className="bg-[#1b1b1b] min-h-screen md:py-[100px] py-[80px]">
       <SemiHeader>Departments</SemiHeader>

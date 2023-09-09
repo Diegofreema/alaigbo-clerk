@@ -15,75 +15,77 @@ enum MemberRole {
   MEMBER
 }
 
-
 model Profile {
-  id  String @id @map("_id") @default(auto()) @db.ObjectId
-  userId  String @unique
-  firstName      String
-  middleName    String
-  lastName       String
-  email     String @unique
-  number      String
-  state       String
-  lga         String
-  town        String
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String     @unique
+  firstName    String
+  middleName   String
+  lastName     String
+  email        String     @unique
+  number       String
+  state        String
+  lga          String
+  town         String
   placeOfBirth String
-  village     String
-  familyName  String
-  gender      String
-  role MemberRole @default(MEMBER)
-  interests   String
-  bio        String
-  imgUrl     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  dob        DateTime
-  isOnboarded  Boolean @default(false)
-  memberId  String @default(uuid())
-  
-
+  village      String
+  familyName   String
+  gender       String
+  role         MemberRole @default(MEMBER)
+  interests    String
+  bio          String
+  imgUrl       String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  dob          DateTime
+  isOnboarded  Boolean    @default(false)
+  memberId     String     @default(uuid())
+  bookIds      String[]   @db.ObjectId
+  book         Book[]     @relation(fields: [bookIds], references: [id])
+  groupId      String     @db.ObjectId
+  group        Group      @relation(fields: [groupId], references: [id])
 }
 
 model Investor {
-  id  String @id @map("_id") @default(auto()) @db.ObjectId
-      userId  String @unique
-      companyName String
-      number String
-      representativeName  String
-      email String @unique
-      industry  String
-      investmentPreference  String
-      investmentExperience  String
-      accreditation String
-      role MemberRole @default(INVESTOR)
-      createdAt DateTime @default(now())
-      updatedAt DateTime @updatedAt
-      isOnboarded  Boolean @default(false)
-      memberId  String @default(uuid())
-     
-
-  
-
+  id                   String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId               String     @unique
+  companyName          String
+  number               String
+  representativeName   String
+  email                String     @unique
+  industry             String
+  investmentPreference String
+  investmentExperience String
+  accreditation        String
+  role                 MemberRole @default(INVESTOR)
+  createdAt            DateTime   @default(now())
+  updatedAt            DateTime   @updatedAt
+  isOnboarded          Boolean    @default(false)
+  memberId             String     @default(uuid())
 }
+
 model Book {
-  id  String @id @map("_id") @default(auto()) @db.ObjectId
-        userId  String @unique
-        firstName String
-        lastName String
-        email String
-        number String
-        guest String
-        reason String
-        update String
-        accommodation String
-        prefix String 
-        location String
-        participants String
-        createdAt DateTime @default(now())
-        updatedAt DateTime @updatedAt
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String    @unique
+  firstName     String
+  lastName      String
+  email         String
+  number        String
+  guest         String
+  reason        String
+  update        String
+  accommodation String
+  prefix        String
+  location      String
+  participants  String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  profileId     String[]  @db.ObjectId
+  profile       Profile[] @relation(fields: [profileId], references: [id])
+}
 
-     
-
-  
-
+model Group {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  groupName String
+  profileId String[]  @db.ObjectId
+  profile   Profile[]
 }

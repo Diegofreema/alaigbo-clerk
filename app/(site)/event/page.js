@@ -4,16 +4,8 @@ import EventTimer from '@/components/Events/EventTimer';
 import Speakers from '@/components/Events/Speakers';
 import TextComponent from '@/components/mantine/TextComponent';
 import TitleComponent from '@/components/mantine/TitleComponent';
-import { fetchInvestor, fetchUserMember } from '@/lib/actions/user.actions';
-import { currentUser } from '@clerk/nextjs';
-import { redirect } from 'next/navigation';
 
 const Event = async () => {
-  const { id } = await currentUser();
-
-  const isMember = await fetchUserMember(id);
-  const isCompany = await fetchInvestor(id);
-  if (!isCompany && !isMember) redirect('/accountType');
   return (
     <div className=" overflow-x-hidden">
       <EventNotification />

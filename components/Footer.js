@@ -50,7 +50,7 @@ const Footer = () => {
                 </p>
                 <TextInput
                   placeholder="Email Address"
-                  className="flex-1"
+                  className="flex-1 "
                   rightSection={
                     <div className="h-full w-[150px] text-white text-sm flex items-center justify-center p-2 bg-[#00AA00] rounded-tr-sm rounded-br-sm cursor-pointer">
                       SUBSCRIBE

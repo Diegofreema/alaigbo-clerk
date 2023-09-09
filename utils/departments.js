@@ -1,0 +1,17 @@
+export const departments = [
+  { value: 'Education', label: 'Education' },
+  { value: 'Agriculture', label: 'Agriculture' },
+  { value: 'ICT', label: 'ICT' },
+  { value: 'Manufacture', label: 'Manufacture' },
+  { value: 'Research', label: 'Research' },
+  { value: 'Creative Economy', label: 'Creative Economy' },
+  { value: 'Entertainment', label: 'Entertainment' },
+  { value: 'Sports Development', label: 'Sports Development' },
+  { value: 'Transportation', label: 'Transportation' },
+  { value: 'Housing', label: 'Housing' },
+  { value: 'Urban Plan', label: 'Urban Plan' },
+  { value: 'Media', label: 'Media' },
+  { value: 'Healthcare', label: 'Healthcare' },
+  { value: 'Mining', label: 'Mining' },
+  { value: 'Tourism', label: 'Tourism' },
+];
