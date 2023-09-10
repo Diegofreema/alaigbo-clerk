@@ -14,7 +14,7 @@ const EventOnboard = async () => {
   };
   const isMember = await fetchUserMember(id);
   const isCompany = await fetchInvestor(id);
-
+  console.log(isCompany?.isOnboarded, isMember?.isOnboarded);
   if (!isCompany?.isOnboarded && !isMember?.isOnboarded)
     redirect('/accountType');
   return (
@@ -24,7 +24,7 @@ const EventOnboard = async () => {
       </h1>
 
       <div>
-        <EventRegistration id={isMember?.id} />
+        <EventRegistration id={isMember?.userId} />
       </div>
     </div>
   );

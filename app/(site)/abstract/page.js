@@ -3,7 +3,7 @@ import SemiHeader from '@/UI/SemiHeader';
 import Demo from '@/components/mantine/Accordion';
 import TextComponent from '@/components/mantine/TextComponent';
 
-const Abstract = async () => {
+const Abstract = () => {
   return (
     <div className="min-h-screen md:py-[80px] py-[60px]">
       <SemiHeader>ABSTRACT</SemiHeader>

@@ -6,11 +6,10 @@ import { fetchUserMember } from '@/lib/actions/user.actions';
 
 const Links = () => {
   const { user } = useUser();
-  const [memberId, setMemberId] = useState('');
+  const [userId, setUserId] = useState('');
   const getUserId = async () => {
     const isMember = await fetchUserMember(user?.id);
-    setMemberId(isMember?.memberId);
-    console.log(isMember);
+    setUserId(isMember?.userId);
   };
   useEffect(() => {
     getUserId();
@@ -52,7 +51,7 @@ const Links = () => {
     },
     {
       title: 'PROFILE',
-      link: `/member/${memberId}`,
+      link: `/member/${userId}`,
     },
   ];
   return (

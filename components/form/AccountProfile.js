@@ -8,6 +8,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -27,6 +28,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import { DatePickerInput } from '@mantine/dates';
 import { Calendar } from '@/components/ui/calendar';
 import { CalendarIcon, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -38,11 +40,14 @@ import { ToastAction } from '@/components/ui/toast';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 import { departments } from '@/utils/file';
+import { useState } from 'react';
+import { ScrollArea } from '../ui/scroll-area';
 const AccountProfile = () => {
   const { toast } = useToast();
+  const [error, setError] = useState(false);
   const router = useRouter();
   const { user } = useUser();
-
+  const [value, setValue] = useState(null);
   const form = useForm({
     resolver: zodResolver(userValidation),
     defaultValues: {
@@ -52,7 +57,6 @@ const AccountProfile = () => {
       middleName: '',
       email: user?.emailAddresses[0]?.emailAddress || '',
       number: '',
-      dob: '',
       state: 'Imo',
       lga: '',
       town: '',
@@ -68,36 +72,42 @@ const AccountProfile = () => {
   });
   const onInvalid = (errors) => console.error(errors);
   const onSubmit = async (values) => {
+    if (value === null) {
+      return setError(true);
+    } else {
+      setError(false);
+    }
+    console.log(values.email);
+
     try {
-      await createMember({
-        userId: user.id,
-        email: values.email,
-        firstName: values.firstName,
-        lastName: values.lastName,
-        middleName: values.middleName,
-        state: values.state,
-        lga: values.lga,
-        town: values.town,
-        placeOfBirth: values.placeOfBirth,
-        village: values.village,
-        familyName: values.familyName,
-        gender: values.gender,
-        role: values.role,
-        interests: values.interests,
-        bio: values.bio,
-        imgUrl: values.imgUrl,
-        dob: values.dob,
-        userId: user?.id,
-        number: values.number,
-        group: values.group,
-      });
+      await createMember(
+        values.firstName,
+        values.lastName,
+        values.middleName,
+        values.state,
+        values.lga,
+        values.town,
+        values.placeOfBirth,
+        values.village,
+        values.familyName,
+        values.gender,
+        user?.id,
+        values.interests,
+        values.bio,
+        values.imgUrl,
+        value,
+        values.email,
+        values.number,
+        values.group
+      );
       toast({
         variant: 'success',
         title: 'Successful',
         description: 'You have created an account',
       });
       form.reset();
-      router.push('/');
+      setValue(null);
+      router.push(`/member/${user?.id}`);
     } catch (error) {
       console.log(error);
       toast({
@@ -124,6 +134,7 @@ const AccountProfile = () => {
               name="firstName"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>First Name</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="First Name"
@@ -141,6 +152,7 @@ const AccountProfile = () => {
               name="middleName"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Middle Name</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Middle Name"
@@ -158,6 +170,7 @@ const AccountProfile = () => {
               name="lastName"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Last Name</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Last Name"
@@ -178,6 +191,7 @@ const AccountProfile = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Email"
@@ -195,6 +209,7 @@ const AccountProfile = () => {
               name="number"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Phone Number</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -213,6 +228,7 @@ const AccountProfile = () => {
               name="group"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Group</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -226,14 +242,16 @@ const AccountProfile = () => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {departments.map((department) => (
-                        <SelectItem
-                          key={department.value}
-                          value={department.value}
-                        >
-                          {department.label}
-                        </SelectItem>
-                      ))}
+                      <ScrollArea className={'h-[300px]'}>
+                        {departments.map((department) => (
+                          <SelectItem
+                            key={department.value}
+                            value={department.value}
+                          >
+                            {department.label}
+                          </SelectItem>
+                        ))}
+                      </ScrollArea>
                     </SelectContent>
                   </Select>
 
@@ -249,6 +267,7 @@ const AccountProfile = () => {
               className="border-['#DE5000']"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>State</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -259,11 +278,13 @@ const AccountProfile = () => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {states.map((state) => (
-                        <SelectItem key={state.value} value={state.value}>
-                          {state.label}
-                        </SelectItem>
-                      ))}
+                      <ScrollArea class={'h-[150px]'}>
+                        {states.map((state) => (
+                          <SelectItem key={state.value} value={state.value}>
+                            {state.label}
+                          </SelectItem>
+                        ))}
+                      </ScrollArea>
                     </SelectContent>
                   </Select>
 
@@ -276,13 +297,37 @@ const AccountProfile = () => {
               name="lga"
               render={({ field }) => (
                 <FormItem>
-                  <FormControl>
-                    <Input
-                      placeholder="LGA"
-                      {...field}
-                      className="w-full border border-orange-500"
-                    />
-                  </FormControl>
+                  <FormLabel>LGA</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                    disabled={!form.getValues('state')}
+                  >
+                    <FormControl className="border border-orange-500 focus:outline-none ">
+                      <SelectTrigger>
+                        <SelectValue
+                          placeholder={
+                            form.getValues('state')
+                              ? 'Select a local government area'
+                              : 'Select a state first'
+                          }
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <ScrollArea class={'h-[300px]'}>
+                        {states
+                          .find(
+                            (state) => state.value === form.getValues('state')
+                          )
+                          ?.lga.map((lga) => (
+                            <SelectItem key={lga.value} value={lga.value}>
+                              {lga.label}
+                            </SelectItem>
+                          ))}
+                      </ScrollArea>
+                    </SelectContent>
+                  </Select>
 
                   <FormMessage />
                 </FormItem>
@@ -293,6 +338,7 @@ const AccountProfile = () => {
               name="town"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Town</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Town"
@@ -312,6 +358,7 @@ const AccountProfile = () => {
               name="placeOfBirth"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Place of birth</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Place of birth"
@@ -329,6 +376,7 @@ const AccountProfile = () => {
               name="village"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Village</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Village"
@@ -346,6 +394,7 @@ const AccountProfile = () => {
               name="familyName"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Family Name</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Family Name"
@@ -365,6 +414,7 @@ const AccountProfile = () => {
               name="gender"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Gender</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -392,6 +442,7 @@ const AccountProfile = () => {
               name="interests"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Interests</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Interest"
@@ -404,48 +455,31 @@ const AccountProfile = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="dob"
-              render={({ field }) => (
-                <FormItem className="flex flex-col   w-full">
-                  <Popover className="border  w-full">
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={'outline'}
-                          className={cn(
-                            'w-full border border-orange-500 pl-3 text-left font-normal ',
-                            !field.value && 'text-muted-foreground'
-                          )}
-                        >
-                          {field.value ? (
-                            format(field.value, 'PPP')
-                          ) : (
-                            <span className="">Date of birth</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent
-                      className="w-auto p-0 border border-orange-500"
-                      align="start"
-                    >
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date('1900-01-01')
-                        }
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                </FormItem>
-              )}
-            />
+            <>
+              <DatePickerInput
+                error={error}
+                label={'Date of birth'}
+                placeholder="Pick date of birth"
+                value={value}
+                onChange={setValue}
+                className="!w-full"
+                styles={{
+                  wrapper: {
+                    border: '1px solid #DE5000',
+                    borderRadius: 5,
+                    paddingTop: 1,
+                    paddingBottom: 1,
+                  },
+                  input: {
+                    border: 'none',
+                    outline: 'none',
+                  },
+                }}
+              />
+              {error ? (
+                <span className="text-red-500">Pick a date of birth</span>
+              ) : null}
+            </>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -454,6 +488,7 @@ const AccountProfile = () => {
               name="bio"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Bio</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Tell us a little bit about yourself"
@@ -471,6 +506,7 @@ const AccountProfile = () => {
               name="imgUrl"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Profile Image</FormLabel>
                   <FormControl>
                     <FileUpload
                       endpoint="profileImg"

@@ -1,92 +1,92 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// // This is your Prisma schema file,
+// // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-generator client {
-  provider = "prisma-client-js"
-}
+// generator client {
+//   provider = "prisma-client-js"
+// }
 
-datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
-}
+// datasource db {
+//   provider = "mongodb"
+//   url      = env("DATABASE_URL")
+// }
 
-enum MemberRole {
-  INVESTOR
-  MEMBER
-}
+// enum MemberRole {
+//   INVESTOR
+//   MEMBER
+// }
 
-model Profile {
-  id           String      @id @default(auto()) @map("_id") @db.ObjectId
-  userId       String?     @unique
-  firstName    String?
-  middleName   String
-  lastName     String
-  email        String      @unique
-  number       String
-  state        String?
-  lga          String?
-  town         String?
-  placeOfBirth String?
-  village      String?
-  familyName   String?
-  gender       String?
-  role         MemberRole? @default(MEMBER)
-  interests    String?
-  bio          String?
-  imgUrl       String?
-  createdAt    DateTime?   @default(now())
-  updatedAt    DateTime?   @updatedAt
-  dob          DateTime?
-  isOnboarded  Boolean?    @default(false)
-  memberId     String?     @default(uuid())
-  bookIds      String[]    @db.ObjectId
-  book         Book[]      @relation(fields: [bookIds], references: [id])
-  groupId      String?     @db.ObjectId
-  group        Group?      @relation(fields: [groupId], references: [id])
-}
+// model Profile {
+//   id           String      @id @default(auto()) @map("_id") @db.ObjectId
+//   userId       String?     @unique
+//   firstName    String?
+//   middleName   String
+//   lastName     String
+//   email        String      @unique
+//   number       String
+//   state        String?
+//   lga          String?
+//   town         String?
+//   placeOfBirth String?
+//   village      String?
+//   familyName   String?
+//   gender       String?
+//   role         MemberRole? @default(MEMBER)
+//   interests    String?
+//   bio          String?
+//   imgUrl       String?
+//   createdAt    DateTime?   @default(now())
+//   updatedAt    DateTime?   @updatedAt
+//   dob          DateTime?
+//   isOnboarded  Boolean?    @default(false)
+//   memberId     String?     @default(uuid())
+//   bookIds      String[]    @db.ObjectId
+//   book         Book[]      @relation(fields: [bookIds], references: [id])
+//   groupId      String?     @db.ObjectId
+//   group        Group?      @relation(fields: [groupId], references: [id])
+// }
 
-model Investor {
-  id                   String     @id @default(auto()) @map("_id") @db.ObjectId
-  userId               String     @unique
-  companyName          String
-  number               String
-  representativeName   String
-  email                String     @unique
-  industry             String
-  investmentPreference String
-  investmentExperience String
-  accreditation        String
-  role                 MemberRole @default(INVESTOR)
-  createdAt            DateTime   @default(now())
-  updatedAt            DateTime   @updatedAt
-  isOnboarded          Boolean    @default(false)
-  memberId             String     @default(uuid())
-}
+// model Investor {
+//   id                   String     @id @default(auto()) @map("_id") @db.ObjectId
+//   userId               String     @unique
+//   companyName          String
+//   number               String
+//   representativeName   String
+//   email                String     @unique
+//   industry             String
+//   investmentPreference String
+//   investmentExperience String
+//   accreditation        String
+//   role                 MemberRole @default(INVESTOR)
+//   createdAt            DateTime   @default(now())
+//   updatedAt            DateTime   @updatedAt
+//   isOnboarded          Boolean    @default(false)
+//   memberId             String     @default(uuid())
+// }
 
-model Book {
-  id            String    @id @default(auto()) @map("_id") @db.ObjectId
-  userId        String    @unique
-  firstName     String
-  middleName    String
-  lastName      String
-  email         String
-  number        String
-  guest         String
-  reason        String
-  update        String
-  accommodation String
-  prefix        String
-  location      String
-  participants  String
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  profileId     String[]  @db.ObjectId
-  profile       Profile[] @relation(fields: [profileId], references: [id])
-}
+// model Book {
+//   id            String    @id @default(auto()) @map("_id") @db.ObjectId
+//   userId        String    @unique
+//   firstName     String
+//   middleName    String
+//   lastName      String
+//   email         String
+//   number        String
+//   guest         String
+//   reason        String
+//   update        String
+//   accommodation String
+//   prefix        String
+//   location      String
+//   participants  String
+//   createdAt     DateTime  @default(now())
+//   updatedAt     DateTime  @updatedAt
+//   profileId     String[]  @db.ObjectId
+//   profile       Profile[] @relation(fields: [profileId], references: [id])
+// }
 
-model Group {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  groupName String
-  profileId String[]  @db.ObjectId
-  profile   Profile[]
-}
+// model Group {
+//   id        String    @id @default(auto()) @map("_id") @db.ObjectId
+//   groupName String
+//   profileId String[]  @db.ObjectId
+//   profile   Profile[]
+// }

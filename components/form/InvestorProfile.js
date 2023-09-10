@@ -21,7 +21,8 @@ import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from '@/components/ui/toast';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
-const InvestorProfile = ({ user }) => {
+const InvestorProfile = () => {
+  const { user } = useUser();
   const { toast } = useToast();
   const router = useRouter();
   const form = useForm({
@@ -56,8 +57,8 @@ const InvestorProfile = ({ user }) => {
         title: 'Successful',
         description: 'You have created an account',
       });
-      form.reset();
-      router.push('/');
+      // form.reset();
+      // router.push('/');
     } catch (error) {
       console.log(error);
       toast({

@@ -17,7 +17,7 @@ import Link from 'next/link';
 const EventCard = ({}) => {
   return (
     <div>
-      <Card className="w-[300px] flex justify-center flex-col !mx-auto bg-[#D9D9D9] rounded-md">
+      <Card className=" flex justify-center flex-col !mx-auto bg-[#D9D9D9] rounded-md">
         <CardHeader className="flex flex-col justify-center">
           <CardTitle className="text-center">Calendar</CardTitle>
           <CardDescription className="text-center font-bold">

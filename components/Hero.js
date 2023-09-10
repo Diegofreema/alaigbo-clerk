@@ -6,13 +6,28 @@ import Image from 'next/image';
 const Hero = () => {
   const images = [
     {
-      original: '/photo1.avif',
+      original: '/1.jpg',
     },
     {
-      original: '/imo.jpg',
+      original: '/2.jpg',
     },
     {
-      original: '/photo3.jpg',
+      original: '/3.jpg',
+    },
+    {
+      original: '/4.jpg',
+    },
+    {
+      original: '/5.jpg',
+    },
+    {
+      original: '/6.jpg',
+    },
+    {
+      original: '/7.jpg',
+    },
+    {
+      original: '/8.jpg',
     },
   ];
   return (

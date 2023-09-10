@@ -22,15 +22,26 @@ import { useForm } from 'react-hook-form';
 import { bookingValidation } from '@/lib/validations/user';
 import { Textarea } from '@/components/ui/textarea';
 import { X } from 'lucide-react';
-import { eventBooking } from '@/lib/actions/user.actions';
+import { eventBooking, fetchUserMember } from '@/lib/actions/user.actions';
 import { useToast } from '@/components/ui/use-toast';
 import { ToastAction } from '@/components/ui/toast';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
+import { useEffect, useState } from 'react';
+import { countries } from '@/utils/file';
 const EventRegistration = ({ id }) => {
+  const [ID, setID] = useState('');
   const { user } = useUser();
   const { toast } = useToast();
   const router = useRouter();
+  useEffect(() => {
+    const getUser = async () => {
+      const isMember = await fetchUserMember(id);
+      setID(isMember?._id);
+    };
+
+    getUser();
+  }, []);
   const form = useForm({
     resolver: zodResolver(bookingValidation),
     defaultValues: {
@@ -40,7 +51,7 @@ const EventRegistration = ({ id }) => {
       middleName: '',
       email: user?.emailAddresses[0].emailAddress || '',
       number: '',
-      location: '',
+      location: 'Nigeria',
       accommodation: 'Yes',
       participants: 'Vip',
       guest: 'No',
@@ -64,7 +75,7 @@ const EventRegistration = ({ id }) => {
         values.prefix,
         values.location,
         values.participants,
-        id
+        ID
       );
       toast({
         variant: 'success',
@@ -231,15 +242,28 @@ const EventRegistration = ({ id }) => {
               name="location"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Present Location</FormLabel>
-
-                  <FormControl>
-                    <Input
-                      placeholder="Present Location"
-                      {...field}
-                      className="w-full border border-orange-500"
-                    />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl className="border border-orange-500">
+                      <SelectTrigger>
+                        <SelectValue
+                          color="black"
+                          placeholder="Choose a group"
+                        />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <ScrollArea className={'h-[300px]'}>
+                        {countries.map((country) => (
+                          <SelectItem key={country.value} value={country.value}>
+                            {country.label}
+                          </SelectItem>
+                        ))}
+                      </ScrollArea>
+                    </SelectContent>
+                  </Select>
 
                   <FormMessage />
                 </FormItem>
